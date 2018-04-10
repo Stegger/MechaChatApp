@@ -31,19 +31,19 @@ public class MainController extends CommandableController implements Initializab
     private MenuItem menuRedo;
     @FXML
     private MenuItem menuUndo;
-    
+
     @FXML
     private BorderPane rootBorderPane;
     @FXML
     private Tab tabCollaborators;
     @FXML
     private Tab tabMessageLogs;
-    
+
     private UserModel userModel;
-    
+
     private CommandableController cmdCollaboratorView;
     private CommandableController cmdMessageLogView;
-    
+
     private CommandableController commandableInView;
 
     /**
@@ -52,6 +52,42 @@ public class MainController extends CommandableController implements Initializab
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+
+    }
+
+    private void setCommandableInFocus(CommandableController cmdCtrl)
+    {
+        commandableInView = cmdCtrl;
+        //Area should have bindings to the specific Commandable to control availability of the undo/redo menu buttons.
+    }
+
+    @FXML
+    private void redo(ActionEvent event)
+    {
+        commandableInView.redo();
+    }
+
+    @FXML
+    private void switchToCollaborators(Event event)
+    {
+        setCommandableInFocus(cmdCollaboratorView);
+    }
+
+    @FXML
+    private void switchToMessageLog(Event event)
+    {
+        setCommandableInFocus(cmdMessageLogView);
+    }
+
+    @FXML
+    private void undo(ActionEvent event)
+    {
+        commandableInView.undo();
+    }
+
+    void setUserModel(UserModel userModel)
+    {
+        this.userModel = userModel;
         try
         {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mechachatapp/gui/view/CollaboratorView.fxml"));
@@ -59,7 +95,7 @@ public class MainController extends CommandableController implements Initializab
             CollaboratorViewController collController = loader.getController();
             collController.setUserModel(userModel);
             cmdCollaboratorView = collController;
-            
+
             loader = new FXMLLoader(getClass().getResource("/mechachatapp/gui/view/MessageLogView.fxml"));
             tabMessageLogs.setContent(loader.load());
             MessageLogViewController msgLogCtrl = loader.getController();
@@ -71,41 +107,5 @@ public class MainController extends CommandableController implements Initializab
             displayException(new BllException(ex.getMessage(), ex));
         }
     }
-    
-    private void setCommandableInFocus(CommandableController cmdCtrl)
-    {
-        commandableInView = cmdCtrl;
-//        menuUndo.visibleProperty().bind(commandableInView.getUndoAvailableProperty());
-//        menuRedo.visibleProperty().bind(commandableInView.getRedoAvailableProperty());
-    }
-    
-    @FXML
-    private void redo(ActionEvent event)
-    {
-        commandableInView.redo();
-    }
-    
-    @FXML
-    private void switchToCollaborators(Event event)
-    {
-        commandableInView = cmdCollaboratorView;
-    }
-    
-    @FXML
-    private void switchToMessageLog(Event event)
-    {
-        commandableInView = cmdMessageLogView;
-    }
-    
-    @FXML
-    private void undo(ActionEvent event)
-    {
-        commandableInView.undo();
-    }
-    
-    void setUserModel(UserModel userModel)
-    {
-        this.userModel = userModel;
-    }
-    
+
 }

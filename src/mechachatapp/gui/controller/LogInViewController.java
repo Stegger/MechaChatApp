@@ -108,6 +108,7 @@ public class LogInViewController extends CommandableController implements Initia
             MainController controller = loader.getController();
             controller.setUserModel(userModel);
             Scene scene = txtEmailError.getScene();
+            ((Stage)scene.getWindow()).setFullScreen(true);
             scene.setRoot(parent);
         } catch (BllException | IOException ex)
         {

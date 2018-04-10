@@ -17,13 +17,16 @@ import javafx.stage.Stage;
  */
 public final class MechaChatApp extends Application
 {
-
+    
+    private final String APPLICATION_TITLE = "Mecha Chat App";
+    
     @Override
     public void start(Stage stage) throws Exception
     {
         Parent root = FXMLLoader.load(getClass().getResource("/mechachatapp/gui/view/LoginView.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle(APPLICATION_TITLE);
         stage.show();
     }
 
@@ -34,5 +37,5 @@ public final class MechaChatApp extends Application
     {
         launch(args);
     }
-
+    
 }

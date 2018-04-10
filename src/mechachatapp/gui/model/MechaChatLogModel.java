@@ -6,18 +6,20 @@
 package mechachatapp.gui.model;
 
 import java.util.List;
+import java.util.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import mechachatapp.be.Message;
 import mechachatapp.bll.exceptions.BllException;
 import mechachatapp.bll.facade.IMechaChatLogicFacade;
 import mechachatapp.bll.facade.MCLogicFacade;
+import mechachatapp.bll.message_logic.IMeassageLogListner;
 
 /**
  *
  * @author pgn
  */
-public class MechaChatLogModel
+public class MechaChatLogModel implements IMeassageLogListner
 {
 
     private IMechaChatLogicFacade facade;
@@ -29,6 +31,8 @@ public class MechaChatLogModel
         messages = FXCollections.observableArrayList();
         facade = MCLogicFacade.getInstance();
         messages.addAll(facade.getAllMessages());
+        
+        facade.listenForMessages(this, messages.get(messages.size() - 1).getId());
     }
 
     public void deleteMessage(Message message) throws BllException
@@ -59,6 +63,18 @@ public class MechaChatLogModel
         Message msg = facade.logMessage(text);
         messages.add(msg);
         return msg;
+    }
+
+    @Override
+    public void update(Observable o, Object arg)
+    {
+        if (arg instanceof Message)
+        {
+            messages.add((Message) arg);
+        } else if (arg instanceof Exception)
+        {
+            ((Exception) arg).printStackTrace();
+        }
     }
 
 }

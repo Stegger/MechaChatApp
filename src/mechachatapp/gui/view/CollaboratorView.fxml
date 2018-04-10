@@ -35,11 +35,8 @@
                <center>
                   <FlowPane fx:id="paneAllCollaborators" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                </center>
-               <left>
-                  <Button fx:id="btnAllCollabsLeft" maxHeight="1.7976931348623157E308" mnemonicParsing="false" prefWidth="50.0" text="&lt;" BorderPane.alignment="CENTER" />
-               </left>
                <right>
-                  <Button fx:id="btnAllCollabsRight" maxHeight="1.7976931348623157E308" mnemonicParsing="false" prefWidth="50.0" text="&gt;" textAlignment="RIGHT" BorderPane.alignment="CENTER" />
+                  <Button fx:id="btnAllCollabsRight" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#nextAllCollabs" prefWidth="50.0" text="&gt;" textAlignment="RIGHT" BorderPane.alignment="CENTER" />
                </right>
                <VBox.margin>
                   <Insets />
@@ -74,11 +71,8 @@
                      </BorderPane.margin>
                   </FlowPane>
                </center>
-               <left>
-                  <Button fx:id="btnMyCollabsLeft" maxHeight="1.7976931348623157E308" mnemonicParsing="false" prefWidth="50.0" text="&lt;" BorderPane.alignment="CENTER" />
-               </left>
                <right>
-                  <Button fx:id="btnMyCollabsRight" maxHeight="1.7976931348623157E308" mnemonicParsing="false" prefWidth="50.0" text="&gt;" textAlignment="RIGHT" BorderPane.alignment="CENTER" />
+                  <Button fx:id="btnMyCollabsRight" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#nextMyCollabs" prefWidth="50.0" text="&gt;" textAlignment="RIGHT" BorderPane.alignment="CENTER" />
                </right>
                <VBox.margin>
                   <Insets />

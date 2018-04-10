@@ -5,6 +5,10 @@
  */
 package mechachatapp.gui.model;
 
+import mechachatapp.bll.util.EndlessIterator;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javafx.scene.image.Image;
 import mechachatapp.be.User;
 import mechachatapp.bll.exceptions.BllException;
 import mechachatapp.bll.facade.IMechaChatLogicFacade;
@@ -32,6 +36,18 @@ public class UserModel
         logicFacade.createUSer(userName, email, password);
     }
 
+    /**
+     * Gets a list of all users excepted the one currently logged in.
+     *
+     * @return list of all users excepted the one currently logged in.
+     */
+    public Iterator<User> getAllUsersIterator()
+    {
+        ArrayList<User> allUsers = logicFacade.getAllUsers();
+        allUsers.remove(loggedInUser);
+        return new EndlessIterator(allUsers);
+    }
+
     public User getLoggedInUser() throws GUIException
     {
         if (loggedInUser == null)
@@ -39,6 +55,11 @@ public class UserModel
             throw new GUIException("No user logged in");
         }
         return loggedInUser;
+    }
+
+    public Image getUserAvatar(User next)
+    {
+        return logicFacade.getAvatar(next);
     }
 
     public void logInUser(String userName, String password) throws BllException

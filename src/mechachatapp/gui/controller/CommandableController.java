@@ -18,6 +18,7 @@ import mechachatapp.gui.model.command.ICommand;
  */
 public abstract class CommandableController
 {
+    
 
     private Stack<ICommand> undos;
     private Stack<ICommand> redos;

@@ -113,6 +113,7 @@ public class MessageLogViewController extends CommandableController implements I
     void setUserModel(UserModel userModel)
     {
         this.userModel = userModel;
+        messageModel.setUserModel(userModel);
     }
 
 }

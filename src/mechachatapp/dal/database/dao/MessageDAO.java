@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mechachatapp.dal.database;
+package mechachatapp.dal.database.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,17 +26,19 @@ public class MessageDAO
      * instance of the Message.
      *
      * @param con The connection to the database.
+     * @param userId The ID of the user whom created the message.
      * @param msg The Text of the message.
      * @return A message object.
      * @throws SQLException
      */
-    public Message createMessage(Connection con, String msg) throws SQLException
+    public Message createMessage(Connection con, int userId, String msg) throws SQLException
     {
-        String sql = "INSERT INTO Message (Text) VALUES(?)";
+        String sql = "INSERT INTO Message (UserId, Text) VALUES(?,?)";
         try (PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS))
         {
-            ps.setString(1, msg);
-
+            ps.setInt(1, userId);
+            ps.setString(2, msg);
+            
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys())
             {
@@ -47,7 +49,7 @@ public class MessageDAO
             }
         }
     }
-
+    
     public void deleteMessage(Connection con, Message message) throws SQLException
     {
         String sql = "DELETE FROM Message WHERE Id=?";
@@ -93,5 +95,5 @@ public class MessageDAO
         String text = rs.getString("Text");
         return new Message(id, text);
     }
-
+    
 }

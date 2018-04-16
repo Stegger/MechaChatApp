@@ -16,7 +16,6 @@ import mechachatapp.bll.message_logic.MessageLogObservable;
 import mechachatapp.dal.exceptions.DalException;
 import mechachatapp.dal.facade.IMechaChatDalFacade;
 import mechachatapp.dal.facade.MCDatabaseDalFacade;
-import mechachatapp.gui.model.MechaChatLogModel;
 
 /**
  *
@@ -105,15 +104,15 @@ public class MCLogicFacade implements IMechaChatLogicFacade
     public User logInUser(String userName, String password) throws BllException
     {
         //DUMMY METHOD
-        return new User(8, "Stegger", "pgn@easv.dk");
+        return new User(1, "Stegger", "pgn@easv.dk");
     }
 
     @Override
-    public Message logMessage(String msg) throws BllException
+    public Message logMessage(User sender, String msg) throws BllException
     {
         try
         {
-            return dalFacade.createMessage(msg);
+            return dalFacade.createMessage(sender, msg);
         } catch (DalException ex)
         {
             throw new BllException(ex.getMessage(), ex);

@@ -33,7 +33,7 @@ public interface IMechaChatLogicFacade
 
     public User logInUser(String userName, String password) throws BllException;
 
-    public Message logMessage(String msg) throws BllException;
+    public Message logMessage(User sender, String msg) throws BllException;
 
     public User createUSer(String userName, String email, String password) throws BllException;
 

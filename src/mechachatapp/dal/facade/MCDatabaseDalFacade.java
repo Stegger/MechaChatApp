@@ -5,13 +5,11 @@
  */
 package mechachatapp.dal.facade;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
+import mechachatapp.dal.database.controller.PooledMessageDaoController;
 import java.util.List;
 import mechachatapp.be.Message;
-import mechachatapp.dal.database.DBConnector;
-import mechachatapp.dal.database.MessageDAO;
+import mechachatapp.be.User;
+import mechachatapp.dal.database.connection.ConnectionPool;
 import mechachatapp.dal.exceptions.DalException;
 
 /**
@@ -21,56 +19,29 @@ import mechachatapp.dal.exceptions.DalException;
 public class MCDatabaseDalFacade implements IMechaChatDalFacade
 {
 
-    private DBConnector connector;
-    private MessageDAO msgDao;
+    private PooledMessageDaoController poolMsgDaoController;
 
     public MCDatabaseDalFacade() throws DalException
     {
-        try
-        {
-            connector = new DBConnector();
-            msgDao = new MessageDAO();
-        } catch (IOException ex)
-        {
-            throw new DalException("Could not establish a connection to the database", ex);
-        }
+        poolMsgDaoController = new PooledMessageDaoController(new ConnectionPool());
     }
 
     @Override
-    public Message createMessage(String msg) throws DalException
+    public Message createMessage(User sender, String msg) throws DalException
     {
-        try (Connection con = connector.getConnection())
-        {
-            Message message = msgDao.createMessage(con, msg);
-            return message;
-        } catch (SQLException ex)
-        {
-            throw new DalException("Could not create new message", ex);
-        }
+        return poolMsgDaoController.createMessage(sender, msg);
     }
 
     @Override
     public void deleteMessage(Message message) throws DalException
     {
-        try (Connection con = connector.getConnection())
-        {
-            msgDao.deleteMessage(con, message);
-        } catch (SQLException ex)
-        {
-            throw new DalException("Could not create new message", ex);
-        }
+        poolMsgDaoController.deleteMessage(message);
     }
 
     @Override
     public List<Message> readAllMessages() throws DalException
     {
-        try (Connection con = connector.getConnection())
-        {
-            return msgDao.getAllMessages(con);
-        } catch (SQLException ex)
-        {
-            throw new DalException("Could not read all messages from database", ex);
-        }
+        return poolMsgDaoController.getAllMessages();
     }
 
 }

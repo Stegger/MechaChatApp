@@ -14,6 +14,4 @@ import java.util.Observer;
 public interface IMeassageLogListner extends Observer
 {
     
-    
-    
 }

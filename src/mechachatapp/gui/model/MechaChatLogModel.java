@@ -5,7 +5,6 @@
  */
 package mechachatapp.gui.model;
 
-import java.util.List;
 import java.util.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,7 +22,7 @@ public class MechaChatLogModel implements IMeassageLogListner
 {
 
     private IMechaChatLogicFacade facade;
-
+    private UserModel userModel;
     private ObservableList<Message> messages;
 
     public MechaChatLogModel() throws BllException
@@ -31,7 +30,7 @@ public class MechaChatLogModel implements IMeassageLogListner
         messages = FXCollections.observableArrayList();
         facade = MCLogicFacade.getInstance();
         messages.addAll(facade.getAllMessages());
-        
+
         facade.listenForMessages(this, messages.get(messages.size() - 1).getId());
     }
 
@@ -51,6 +50,11 @@ public class MechaChatLogModel implements IMeassageLogListner
         return messages;
     }
 
+    public void setUserModel(UserModel userModel)
+    {
+        this.userModel = userModel;
+    }
+
     /**
      * Adds a new message to the log.
      *
@@ -60,7 +64,7 @@ public class MechaChatLogModel implements IMeassageLogListner
      */
     public Message logMessage(String text) throws BllException
     {
-        Message msg = facade.logMessage(text);
+        Message msg = facade.logMessage(userModel.getLoggedInUser(), text);
         messages.add(msg);
         return msg;
     }

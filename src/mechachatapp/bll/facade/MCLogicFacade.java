@@ -34,7 +34,7 @@ public class MCLogicFacade implements IMechaChatLogicFacade
             dalFacade = new MCDatabaseDalFacade();
         } catch (DalException ex)
         {
-            throw new BllException("Could not establish a connection to the data acces layer.", ex);
+            throw new BllException("Could not establish a connection to the data access layer.", ex);
         }
     }
 

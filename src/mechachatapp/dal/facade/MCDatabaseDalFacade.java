@@ -23,7 +23,7 @@ public class MCDatabaseDalFacade implements IMechaChatDalFacade
 
     public MCDatabaseDalFacade() throws DalException
     {
-        poolMsgDaoController = new PooledMessageDaoController(new ConnectionPool());
+        poolMsgDaoController = new PooledMessageDaoController(ConnectionPool.getInstance());
     }
 
     @Override

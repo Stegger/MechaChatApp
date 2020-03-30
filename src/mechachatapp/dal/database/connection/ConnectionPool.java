@@ -6,10 +6,11 @@
 package mechachatapp.dal.database.connection;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
+import mechachatapp.dal.exceptions.DalException;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import mechachatapp.dal.exceptions.DalException;
 
 /**
  *
@@ -18,10 +19,18 @@ import mechachatapp.dal.exceptions.DalException;
 public class ConnectionPool extends ObjectPool<Connection>
 {
 
-    private Connection con;
+    private static ConnectionPool INSTANCE;
+
     private DBConnector dbConnector;
 
-    public ConnectionPool() throws DalException
+
+    public static synchronized ConnectionPool getInstance() throws DalException {
+        if(INSTANCE == null)
+            INSTANCE = new ConnectionPool();
+        return INSTANCE;
+    }
+
+    private ConnectionPool() throws DalException
     {
         super();
         try

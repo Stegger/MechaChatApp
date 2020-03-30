@@ -7,11 +7,12 @@ package mechachatapp.dal.database.connection;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
+
+import javax.sql.DataSource;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.Properties;
-import javax.activation.DataSource;
 
 /**
  *
@@ -43,7 +44,7 @@ public class DBConnector
 
     DataSource getDataSource()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return ds;
     }
 
 }

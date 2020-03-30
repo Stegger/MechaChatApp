@@ -13,6 +13,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import mechachatapp.be.Message;
+import mechachatapp.dal.database.connection.ConnectionPool;
+import mechachatapp.dal.exceptions.DalException;
 
 /**
  *
@@ -20,6 +22,18 @@ import mechachatapp.be.Message;
  */
 public class MessageDAO
 {
+
+    private ConnectionPool pool;
+
+    public MessageDAO()
+    {
+        try {
+            pool = ConnectionPool.getInstance();
+        } catch (DalException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Inserts a new Message in the Message table in the database and returns an
@@ -33,21 +47,21 @@ public class MessageDAO
      */
     public Message createMessage(Connection con, int userId, String msg) throws SQLException
     {
-        String sql = "INSERT INTO Message (UserId, Text) VALUES(?,?)";
-        try (PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS))
-        {
-            ps.setInt(1, userId);
-            ps.setString(2, msg);
-            
-            ps.executeUpdate();
-            try (ResultSet rs = ps.getGeneratedKeys())
-            {
-                rs.next();
-                int id = rs.getInt(1);
-                Message m = new Message(id, msg);
-                return m;
+
+            String sql = "INSERT INTO Message (UserId, Text) VALUES(?,?)";
+            try (PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+                ps.setInt(1, userId);
+                ps.setString(2, msg);
+
+                ps.executeUpdate();
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    rs.next();
+                    int id = rs.getInt(1);
+                    Message m = new Message(id, msg);
+                    return m;
+                }
             }
-        }
+
     }
     
     public void deleteMessage(Connection con, Message message) throws SQLException

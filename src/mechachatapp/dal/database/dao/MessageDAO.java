@@ -47,7 +47,7 @@ public class MessageDAO
      */
     public Message createMessage(Connection con, int userId, String msg) throws SQLException
     {
-
+            //A comment just so I can commit
             String sql = "INSERT INTO Message (UserId, Text) VALUES(?,?)";
             try (PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 ps.setInt(1, userId);
